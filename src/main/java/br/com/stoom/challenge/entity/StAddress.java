@@ -10,7 +10,6 @@ import org.springframework.lang.NonNull;
 
 import br.com.stoom.challenge.model.StAddressModel;
 
-
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class StAddress implements Serializable {
 	@NonNull
 	private String streetName;
 	@NonNull
-	private Integer number;
+	private String number;
 	private String complement;
 	@NonNull
 	private String neighbourhood;
@@ -39,17 +38,16 @@ public class StAddress implements Serializable {
 	private String longitude;
 
 	public StAddressModel fromEntityToModel() {
+
 		StAddressModel stAddressModel = new StAddressModel();
-		BeanUtils.copyProperties(stAddressModel, this);
+		BeanUtils.copyProperties(this, stAddressModel);
 
 		return stAddressModel;
 	}
-	
+
 	public StAddress fromModelToEntity(StAddressModel stAddressModel) {
-		StAddress stAddress = new StAddress();
-		BeanUtils.copyProperties(this, stAddressModel);
-		
-		return stAddress;
+		BeanUtils.copyProperties(stAddressModel, this);
+		return this;
 	}
 
 	public UUID getId() {
@@ -68,11 +66,11 @@ public class StAddress implements Serializable {
 		this.streetName = streetName;
 	}
 
-	public Integer getNumber() {
+	public String getNumber() {
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(String number) {
 		this.number = number;
 	}
 
@@ -139,5 +137,4 @@ public class StAddress implements Serializable {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-
 }

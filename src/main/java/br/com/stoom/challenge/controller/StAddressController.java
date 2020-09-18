@@ -21,17 +21,13 @@ public class StAddressController {
 	@Autowired
 	StAddressService stAddressService;
 
-	@GetMapping("/address")
-	public ResponseEntity<List<StAddress>> getAllAdddress() {
-
-		List<StAddress> listStAddress = stAddressService.getAll();
-
-		return listStAddress.isEmpty() ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-				: new ResponseEntity<>(listStAddress, HttpStatus.OK);
+	@GetMapping
+	public ResponseEntity<?> getAllAdddress() {
+		return ResponseEntity.ok(stAddressService.getAll());
 	}
 
-	@PostMapping("/tutorials")
-	public ResponseEntity<StAddressModel> createTutorial(@RequestBody StAddressModel stAddressModel) {
+	@PostMapping
+	public ResponseEntity<StAddressModel> createAddress(@RequestBody StAddressModel stAddressModel) {
 		return stAddressService.createAddress(stAddressModel);
 	}
 }
