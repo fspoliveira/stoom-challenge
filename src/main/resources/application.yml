@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+flyway:
+    url: jdbc:postgresql://localhost:5432/postgres
+    user: postgress
+    password: postgress
+    schemas: public
+    enable: true
+
+google:
+    api:
+      api-key: AIzaSyBm3xh9oZP1ksMWcMzVaZQevWlrtb8tIgc
+      base-url: https://maps.googleapis.com/maps/api/geocode/json
