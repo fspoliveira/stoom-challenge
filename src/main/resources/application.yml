@@ -13,4 +13,4 @@ jpa:
 google:
     api:
       api-key: AIzaSyBm3xh9oZP1ksMWcMzVaZQevWlrtb8tIgc
-      base-url: https://maps.googleapis.com/maps/api/geocode/json
+      base-url: https://maps.googleapis.com/maps/api/geocode/json?

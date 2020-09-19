@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import br.com.stoom.challenge.com.google.service.GoogleAPI;
+import br.com.stoom.challenge.com.google.service.GoogleAPIService;
 import br.com.stoom.challenge.entity.StAddress;
 import br.com.stoom.challenge.exception.StAddressNotFoundException;
 import br.com.stoom.challenge.model.StAddressModel;
@@ -23,10 +23,11 @@ public class StAddressService {
 	StAddressRepository stAddressRepository;
 
 	@Autowired
-	GoogleAPI googleAPI;
+	GoogleAPIService googleAPI;
 
-	public ResponseEntity<StAddressModel> save(@RequestBody StAddressModel stAddressModel) {
-		StAddress stAddress = stAddressRepository.save(handleLatitudeAndLongitude(new StAddress().fromModelToEntity(stAddressModel)));
+	public ResponseEntity<StAddressModel> save(StAddressModel stAddressModel) {
+		StAddress stAddress = stAddressRepository
+				.save(handleLatitudeAndLongitude(new StAddress().fromModelToEntity(stAddressModel)));
 		return new ResponseEntity<>(stAddress.fromEntityToModel(), HttpStatus.CREATED);
 	}
 
@@ -48,15 +49,15 @@ public class StAddressService {
 	}
 
 	private StAddress handleLatitudeAndLongitude(StAddress address) {
-		
-		Map<String,String> latAndlng; 
 
-		if(address.getLatitude().isBlank() || address.getLongitude().isBlank()) {
-			latAndlng = googleAPI.getLatAndLng();
+		Map<String, String> latAndlng;
+
+		if (address.getLatitude().isBlank() || address.getLongitude().isBlank()) {
+			latAndlng = googleAPI.getLatAndLng(address);
 			address.setLatitude(latAndlng.get("lat"));
 			address.setLongitude(latAndlng.get("lng"));
 		}
-		
+
 		return address;
 	}
 }

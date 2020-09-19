@@ -8,6 +8,8 @@ import java.net.http.HttpResponse;
 
 import org.springframework.stereotype.Service;
 
+import lombok.var;
+
 @Service
 public class StHttpClient {
 
@@ -15,7 +17,7 @@ public class StHttpClient {
 
 		var url = "https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDTK0igIQTCi5EYKL9tzOIJ9N6FUASGZos";
 
-		var request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+		var request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
 		var client = HttpClient.newHttpClient();
 		HttpResponse<String> response = null;
 		try {
