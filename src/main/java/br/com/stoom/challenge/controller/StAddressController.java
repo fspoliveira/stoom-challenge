@@ -28,7 +28,7 @@ public class StAddressController {
 
 	@PostMapping
 	public ResponseEntity<StAddressModel> updateAddress(@Valid 	@RequestBody StAddressModel stAddressModel) {
-		return stAddressService.createAddress(stAddressModel);
+		return stAddressService.save(stAddressModel);
 	}
 
 	@GetMapping
