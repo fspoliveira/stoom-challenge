@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/bin/src/main/java/br/com/stoom/challenge/configuration/*.class
+/bin/.mvn/wrapper/*.class
+/bin
