@@ -3,17 +3,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: postgres
-  jpa:
+  
+jpa:
     database: POSTGRESQL
     show-sql: true
     hibernate:
-      ddl-auto: validate
-flyway:
-    url: jdbc:postgresql://localhost:5432/postgres
-    user: postgress
-    password: postgress
-    schemas: public
-    enable: true
+    ddl-auto: validate
 
 google:
     api:

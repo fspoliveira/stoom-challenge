@@ -1,7 +1,6 @@
 package br.com.stoom.challenge.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.stoom.challenge.entity.StAddress;
+import br.com.stoom.challenge.exception.StAddressNotFoundException;
 import br.com.stoom.challenge.model.StAddressModel;
 import br.com.stoom.challenge.repository.StAddressRepository;
 
@@ -30,10 +30,15 @@ public class StAddressService {
 	}
 
 	public StAddress findById(UUID id) {
-		return stAddressRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+		return stAddressRepository.findById(id).orElseThrow(StAddressNotFoundException::new);
 	}
 
 	public void delete(UUID id) {
 		stAddressRepository.deleteById(id);
+	}
+
+	public StAddress update(StAddress stAddress) {
+		stAddressRepository.findById(stAddress.getId()).orElseThrow(StAddressNotFoundException::new);
+		return stAddressRepository.save(stAddress);
 	}
 }
