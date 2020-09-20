@@ -1,7 +1,6 @@
 package br.com.stoom.challenge.com.google.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +11,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.stoom.challenge.entity.StAddress;
+import br.com.stoom.challenge.exception.GoogleApiInvalidAddressInfo;
 import br.com.stoom.challenge.httpclient.StHttpClient;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class GoogleAPIService {
 
@@ -26,34 +28,30 @@ public class GoogleAPIService {
 	@Value("${google.api.api-key}")
 	private String apiKey;
 
-	public Map<String, String> getLatAndLng(StAddress stAddress) {
-
-		JsonNode rootNode;
-		Map<String, String> latAndLngMap = new HashMap<String, String>();
-
-		rootNode = this.callGeocodingApi(stAddress);
-
-		if (rootNode != null) {
-			latAndLngMap.put("lat", rootNode.get("results").get(0).get("geometry").get("location").get("lat").asText());
-			latAndLngMap.put("lng", rootNode.get("results").get(0).get("geometry").get("location").get("lng").asText());
-		}
-
-		return latAndLngMap;
-
+	public GoogleAPIModel getLatAndLng(StAddress stAddress) {
+		return this.callGeocodingApi(stAddress).map(this::getGeoLocation).orElseThrow(GoogleApiInvalidAddressInfo::new);
 	}
 
-	private JsonNode callGeocodingApi(StAddress stAddress) {
+	private GoogleAPIModel getGeoLocation(JsonNode jsonNode) {
+		GoogleAPIModel googleAPIModel = new GoogleAPIModel();
+		googleAPIModel.setLatitude(jsonNode.get("results").get(0).get("geometry").get("location").get("lat").asText());
+		googleAPIModel.setLongitute(jsonNode.get("results").get(0).get("geometry").get("location").get("lng").asText());
+
+		return googleAPIModel;
+	}
+
+	private Optional<JsonNode> callGeocodingApi(StAddress stAddress) {
 
 		ObjectMapper mapper = new ObjectMapper();
 		JsonNode rootNode = null;
 
 		try {
 			rootNode = mapper.readTree(stHttpClient.callHttpClient(this.createUrl(stAddress)));
-		} catch (JsonProcessingException e) {			
-			e.printStackTrace();
+		} catch (JsonProcessingException e) {
+			throw new GoogleApiInvalidAddressInfo();
 		}
 
-		return rootNode;
+		return Optional.ofNullable(rootNode);
 	}
 
 	private String createUrl(StAddress stAddress) {
@@ -61,6 +59,8 @@ public class GoogleAPIService {
 		sb.append(URL);
 		sb.append(this.createParams(stAddress));
 		sb.append(apiKey);
+
+		log.info("URL from Google API " + sb.toString());
 
 		return sb.toString();
 

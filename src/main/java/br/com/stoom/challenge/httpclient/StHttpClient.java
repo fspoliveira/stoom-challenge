@@ -9,27 +9,28 @@ import java.net.http.HttpResponse;
 import org.springframework.stereotype.Service;
 
 import lombok.var;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class StHttpClient {
 
-	public String callHttpClient(String URL) {
-
-		var url = "https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDTK0igIQTCi5EYKL9tzOIJ9N6FUASGZos";
+	public String callHttpClient(String URL) {		
 
 		var request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
 		var client = HttpClient.newHttpClient();
 		HttpResponse<String> response = null;
+		
 		try {
+			log.info("Calling URL: " + URL );
 			response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		System.out.println(response.body());
+	
+		log.info("Body response: " + response.body() );
 
 		return response.body();
-
 	}
 }

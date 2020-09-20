@@ -1,21 +1,22 @@
 package br.com.stoom.challenge.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import br.com.stoom.challenge.com.google.service.GoogleAPIModel;
 import br.com.stoom.challenge.com.google.service.GoogleAPIService;
 import br.com.stoom.challenge.entity.StAddress;
 import br.com.stoom.challenge.exception.StAddressNotFoundException;
 import br.com.stoom.challenge.model.StAddressModel;
 import br.com.stoom.challenge.repository.StAddressRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class StAddressService {
 
@@ -50,12 +51,15 @@ public class StAddressService {
 
 	private StAddress handleLatitudeAndLongitude(StAddress address) {
 
-		Map<String, String> latAndlng;
+		GoogleAPIModel googleAPIModel;
 
 		if (address.getLatitude().isBlank() || address.getLongitude().isBlank()) {
-			latAndlng = googleAPI.getLatAndLng(address);
-			address.setLatitude(latAndlng.get("lat"));
-			address.setLongitude(latAndlng.get("lng"));
+			
+			log.info("Not informed, querying the Google API.....");
+			
+			googleAPIModel = googleAPI.getLatAndLng(address);
+			address.setLatitude(googleAPIModel.getLatitude());
+			address.setLongitude(googleAPIModel.getLongitute());
 		}
 
 		return address;
