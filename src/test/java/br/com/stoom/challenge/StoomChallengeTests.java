@@ -1,10 +1,10 @@
-package com.example.postgresdemo;
+package br.com.stoom.challenge;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PostgresDemoApplicationTests {
+class StoomChallengeTests {
 
 	@Test
 	void contextLoads() {

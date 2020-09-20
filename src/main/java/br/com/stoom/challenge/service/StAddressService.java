@@ -19,6 +19,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class StAddressService {
+	
+	public StAddressService() {
+		super();
+	}
+	
+	
+
+	public StAddressService(StAddressRepository stAddressRepository, GoogleAPIService googleAPI) {
+		super();
+		this.stAddressRepository = stAddressRepository;
+		this.googleAPI = googleAPI;
+	}
+
+
 
 	@Autowired
 	StAddressRepository stAddressRepository;
