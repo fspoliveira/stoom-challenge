@@ -15,21 +15,20 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class StHttpClient {
 
-	public String callHttpClient(String URL) {		
+	public String callHttpClient(String URL) {
 
 		var request = HttpRequest.newBuilder().uri(URI.create(URL)).GET().build();
 		var client = HttpClient.newHttpClient();
 		HttpResponse<String> response = null;
-		
+
 		try {
-			log.info("Calling URL: " + URL );
+			log.info("Calling URL: " + URL);
 			response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.error("Error on request " + e.getMessage());
 		}
-	
-		log.info("Body response: " + response.body() );
+
+		log.info("Body response: " + response.body());
 
 		return response.body();
 	}

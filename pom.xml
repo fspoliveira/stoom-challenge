@@ -12,7 +12,7 @@
 	<groupId>br.com.stoom</groupId>
 	<artifactId>stoom-challenge</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>postgres-demo</name>
+	<name>stoom-challenge</name>
 	<description>Teste de Qualificação Backend STOOM</description>
 
 	<properties>
